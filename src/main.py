@@ -114,14 +114,14 @@ async def download_subtitle(request: Request, file: bytes = File(), model_type: 
     # Create the subtitle file
     if file_type == "srt":
         subtitle_file = f"{filename}.srt"
-        with open(subtitle_file, "w") as f:
+        with open(subtitle_file, "w", encoding="utf-8") as f:
             if timestamps == "True":
                 f.write(make_srt_subtitles(result.segments))
             else:
                 f.write(result.text)
     elif file_type == "vtt":
         subtitle_file = f"{filename}.vtt"
-        with open(subtitle_file, "w") as f:
+        with open(subtitle_file, "w", encoding="utf-8") as f:
             if timestamps == "True":
                 f.write(result.to_vtt())
             else:
