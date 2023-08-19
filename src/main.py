@@ -97,7 +97,7 @@ def add_audio(
 
 # Added the following feature to automatically download the transcripted file. The file will download in the web browser of the user. 
 @app.post('/download/')
-async def download_subtitle(request: Request, file: bytes = File(), model_type: str = "tiny", timestamps: Optional[str] = Form("False"), filename: str = "subtitles", file_type: str = "srt"):
+async def download_subtitle(request: Request, file: bytes = File(), model_type: str = Form("tiny"), timestamps: Optional[str] = Form("False"), filename: str = "subtitles", file_type: str = "srt"):
 
     # Save the uploaded file
     with open('audio.mp3', 'wb') as f:
@@ -115,14 +115,14 @@ async def download_subtitle(request: Request, file: bytes = File(), model_type: 
     if file_type == "srt":
         subtitle_file = f"{filename}.srt"
         with open(subtitle_file, "w") as f:
-            if timestamps:
+            if timestamps == "True":
                 f.write(make_srt_subtitles(result.segments))
             else:
                 f.write(result.text)
     elif file_type == "vtt":
         subtitle_file = f"{filename}.vtt"
         with open(subtitle_file, "w") as f:
-            if timestamps:
+            if timestamps == "True":
                 f.write(result.to_vtt())
             else:
                 f.write(result.text)
